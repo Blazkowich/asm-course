@@ -37,7 +37,7 @@ chmod +x *.sh
 ./quickstart.sh
 
 # ან ცალ-ცალკე:
-docker build -t asm-course .
+docker buildx build -t asm-course .
 docker run --rm -it -v "$PWD/..:/work" asm-course
 # კონტეინერში:
 cd /work/test-env

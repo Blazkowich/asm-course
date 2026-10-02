@@ -11,7 +11,7 @@ PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 IMAGE="asm-course"
 
 echo "→ Docker image build..."
-docker build -t "$IMAGE" "$SCRIPT_DIR"
+docker buildx build -t "$IMAGE" "$SCRIPT_DIR"
 
 echo
 echo "→ verify.sh..."

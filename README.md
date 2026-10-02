@@ -74,7 +74,7 @@
 
 ```bash
 cd test-env
-docker build -t asm-course .
+docker buildx build -t asm-course .
 docker run --rm -it -v "$PWD/..:/work" asm-course
 # კონტეინერში:
 ./test-env/verify.sh
