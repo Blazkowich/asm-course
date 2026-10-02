@@ -24,8 +24,6 @@ docker --version
 # უნდა დაიბეჭდოს: Docker version 20.x.x ან უფრო ახალი
 ```
 
-````
-
 ### 1.2 კურსის გარემოს ჩაშვება
 
 ```bash
@@ -239,4 +237,3 @@ make clean        # წაშლის .o და binaries
 - [ ] `~/.gdbinit`-ში `set disassembly-flavor intel` ჩაწერილია
 - [ ] `hello.asm` ააწყო და `./hello; echo $?` დაბეჭდა `42`
 - [ ] gdb-ში შედი, `stepi` გააკეთე და `rax` ნახე
-````

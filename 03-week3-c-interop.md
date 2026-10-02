@@ -25,8 +25,6 @@ gcc -S -masm=intel -O0 -fno-asynchronous-unwind-tables -o out.s test.c
 gcc -S -masm=intel -O2 -fno-asynchronous-unwind-tables -o out.s test.c
 ```
 
-````
-
 - `-S`: შეაჩერე asm-ზე
 - `-masm=intel`: Intel სინტაქსი (ნაგულისხმევი AT&T არის: `mov %rdi, %rax`,
   მიმღები მარჯვნივ)
@@ -518,4 +516,3 @@ Program received signal SIGSEGV...
 - [ ] `xmm` რეგისტრებით 4 float-ის პარალელური დამუშავება
 - [ ] `gdb`, `objdump -M intel` და `strace` თავისუფლად გამოყენება
 - [ ] segfault-ის მიზეზის პოვნა
-````
