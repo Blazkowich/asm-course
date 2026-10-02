@@ -6,7 +6,11 @@
 #   make run-prog            - გაუშვი და აჩვენე exit code
 #   make debug-prog          - გაუშვი gdb-ში
 #   make verify              - ამოწმებს გარემოს
-#   make test                - უშვებს ყველა ტესტს
+#   make test                - თვითშემოწმება (solutions/-იდან)
+#   make list                - ყველა დავალება და საჭირო ფაილი
+#   make progress            - პროგრესი კვირების მიხედვით
+#   make guide ID=w1d1_exit42  - გაიდლაინი ერთი დავალებისთვის
+#   make new ID=w1d1_exit42    - ცარიელი ჩონჩხის შექმნა solutions/-ში
 #   make clean               - წაშლის .o და binaries
 
 # --- კონფიგურაცია ---
@@ -28,7 +32,7 @@ ASM_BINS   := $(ASM_SRCS:.asm=)
 C_SRCS     := $(wildcard *.c)
 C_BINS     := $(C_SRCS:.c=)
 
-.PHONY: all clean run-% debug-% disasm-% verify test help
+.PHONY: all clean run-% debug-% disasm-% verify test list progress guide new help
 
 # --- ნაგულისხმევი სამიზნე ---
 all: $(ASM_BINS)
@@ -63,8 +67,25 @@ verify:
 	@bash verify.sh
 
 # --- ტესტები ---
+# ტესტი solutions/ საქაღალდიდან კითხულობს შენს კოდს; ამოხსნები მასში არ არის.
 test:
 	@bash run-tests.sh
+
+list:
+	@bash run-tests.sh --list
+
+progress:
+	@bash run-tests.sh --progress
+
+# გამოყენება: make guide ID=w1d1_exit42
+guide:
+	@test -n "$(ID)" || { echo "მიუთითე ID:  make guide ID=w1d1_exit42"; exit 1; }
+	@bash run-tests.sh --guide $(ID)
+
+# გამოყენება: make new ID=w1d1_exit42
+new:
+	@test -n "$(ID)" || { echo "მიუთითე ID:  make new ID=w1d1_exit42"; exit 1; }
+	@bash run-tests.sh --new $(ID)
 
 # --- დასუფთავება ---
 clean:
@@ -80,6 +101,10 @@ help:
 	@echo "  debug-<name> - გაუშვი gdb-ში"
 	@echo "  disasm-<name>- disassembly (objdump)"
 	@echo "  verify       - შეამოწმე გარემო"
-	@echo "  test         - გაუშვი ტესტები"
+	@echo "  test         - თვითშემოწმება (solutions/-იდან)"
+	@echo "  list         - ყველა დავალება და საჭირო ფაილი"
+	@echo "  progress     - პროგრესი კვირების მიხედვით"
+	@echo "  guide ID=... - გაიდლაინი (მაგ. make guide ID=w1d1_exit42)"
+	@echo "  new ID=...   - ცარიელი ჩონჩხი (მაგ. make new ID=w1d1_exit42)"
 	@echo "  clean        - წაშალე არტეფაქტები"
 	@echo "  help         - ეს დახმარება"

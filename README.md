@@ -70,17 +70,25 @@
 
 - `Dockerfile` — სრული გარემო ერთ ბრძანებაში
 - `verify.sh` — ამოწმებს, ყველა ინსტრუმენტი დაყენებულია თუ არა
-- `run-tests.sh` — უშვებს სამაგალითო პროგრამებს და ამოწმებს შედეგებს
+- `run-tests.sh` — **თვითშემოწმება:** კითხულობს მხოლოდ შენს ფაილებს
+  `solutions/`-იდან, აწყობს, უშვებს და ადარებს შედეგს
+- `GUIDELINES.md` — **იდეები, gdb-ის ნაბიჯები და ხშირი შეცდომები** (კოდის გარეშე)
+- `solutions/` — აქ წერ დავალებებს; თავიდან ცარიელია
+
+> **მთავარი პრინციპი:** ტესტში ამოხსნები არ არის. არ გამოვიდა? ტესტი
+> იდეას და gdb-ის ნაბიჯებს გაძლევს — კოდს კი შენ წერ.
 
 ```bash
 cd test-env
 docker buildx build -t asm-course .
 docker run --rm -it -v "$PWD/..:/work" asm-course
 # კონტეინერში:
-./test-env/verify.sh
-./test-env/run-tests.sh
-```
-
+cd /work/test-env
+./verify.sh
+./run-tests.sh --list                             # ყველა დავალება და საჭირო ფაილი
+./run-tests.sh --new w1d1_exit42                  # ცარიელი ჩონჩხი solutions/-ში
+./run-tests.sh w1d1_exit42                        # შეამოწმე
+./run-tests.sh --guide w1d1_exit42                # გაიჭედე? იდეები + gdb
 ```
 
 ---
@@ -101,7 +109,8 @@ docker run --rm -it -v "$PWD/..:/work" asm-course
 
 - ნუ გადააკოპირებ კოდს. ხელით აკრიფე.
 - თუ პროგრამა მუშაობს — ჯერ კარგად გაიარე gdb-ში, მერე გადადი შემდეგზე.
-- ჩერდები? სცადე 15 წუთი დამოუკიდებლად, მერე ნახე პასუხი.
+- ჩერდები? სცადე 15 წუთი დამოუკიდებლად, მერე ნახე გაიდლაინი
+  (`test-env/GUIDELINES.md`) — ის იდეებს გაძლევს, ამოხსნას კი არა.
 - ყოველ კვირის ბოლოს გაიარე **„კვირის შეჯამება“** checklist.
 
 ---
@@ -121,4 +130,3 @@ docker run --rm -it -v "$PWD/..:/work" asm-course
 - **Compiler Explorer (godbolt.org)** — C-ის asm-ად გადაქცევა ბრაუზერში
 - **pwn.college** — პრაქტიკული მოდულები (უფასო)
 - წიგნები: _Programming from the Ground Up_ (Bartlett), _Hacking: The Art of Exploitation_ (Erickson)
-```
