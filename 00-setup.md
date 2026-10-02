@@ -15,7 +15,7 @@
 
 - **Windows:** [Docker Desktop](https://www.docker.com/products/docker-desktop)
   (აუცილებელია WSL2 backend ჩართული იყოს)
-- **Linux:** `sudo apt install docker.io` (Ubuntu/Debian)
+- **Linux:** `sudo apt install docker.io docker-buildx-plugin` (Ubuntu/Debian)
 
 შემოწმება:
 
@@ -28,7 +28,7 @@ docker --version
 
 ```bash
 cd test-env
-docker build -t asm-course .
+docker buildx build -t asm-course .
 docker run --rm -it -v "$PWD/..:/work" asm-course
 ```
 
