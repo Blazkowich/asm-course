@@ -15,7 +15,6 @@
 
 - **Windows:** [Docker Desktop](https://www.docker.com/products/docker-desktop)
   (აუცილებელია WSL2 backend ჩართული იყოს)
-- **macOS:** Docker Desktop
 - **Linux:** `sudo apt install docker.io` (Ubuntu/Debian)
 
 შემოწმება:
