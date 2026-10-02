@@ -35,8 +35,8 @@ clean:
 
 help:
 	@echo "examples/Makefile"
-	@echo "  all          - ააწყვე ყველა .asm"
-	@echo "  <name>       - ააწყვე კონკრეტული"
-	@echo "  run-<name>   - გაუშვი"
+	@echo "  all          - build all .asm"
+	@echo "  <name>       - build specific"
+	@echo "  run-<name>   - run"
 	@echo "  debug-<name> - gdb"
-	@echo "  clean        - წაშალე"
+	@echo "  clean        - clean"
