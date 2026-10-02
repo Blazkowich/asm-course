@@ -4,15 +4,23 @@
 > **დრო:** ~10 საათი
 > **მიზანი:** დააკავშირო Assembly და C, გაიგო რეალური compiler-ის კოდი.
 
+> 🔤 **ამ კვირის ახალი ტერმინები** (ყველა ახსნილია [`GLOSSARY.md`](GLOSSARY.md)-ში):
+> **libc** · **`gcc`** · **`-g` / DWARF** · **`default rel` / `rip`** ·
+> **`DWORD PTR`** · **`size_t`** · **offset** და **padding** ·
+> **`offsetof` / `sizeof`** · **variadic** · **`xmm`, SIMD, SSE, AVX** ·
+> **`movaps` vs `movups`** · **scalar vs vector** · **`objdump` / `strace`**.
+
 ---
 
 ## 🧭 სანამ დაიწყებ
 
 - C-ის საბაზისო ცოდნა დაგჭირდება (`int`, `struct`, pointer, ფუნქცია).
-  თუ არ იცი — გაიარე 30-წუთიანი tutorial, მერე დაბრუნდი.
+  თუ pointer ან struct არ იცი — [`GLOSSARY.md`](GLOSSARY.md) § 7-ში ორივე
+  მარტივი ენითაა ახსნილი; წაიკითხე ის, მერე დაბრუნდი.
 - დარწმუნდი, რომ II კვირის checklist სრულად გაქვს.
 - ამ კვირაში **პირველად** დაინახავ libc ფუნქციებს asm-დან.
   მთავარი ცნება: **stack alignment** — თუ არასწორია, `printf` ჩავარდება.
+  (ახსნა: `GLOSSARY.md` → alignment.)
 
 ---
 
@@ -41,7 +49,13 @@ int add(int a, int b) { return a + b; }
 
 **`-O0`** (არაოპტიმიზებული, დაახლოებით ასეთი გამოდის):
 
-```nasm
+> 📌 ქვემოთ ორივე ბლოკი **gcc-ის გამოსავალია** (Intel სინტაქსი), არა შენი
+> დასაწერი NASM კოდი. განსხვავებას შეამჩნევ: gcc წერს `DWORD PTR [rbp-4]`,
+> NASM-ში იგივე ასე იწერება — `mov dword [rbp-4], edi`. `push rbp` /
+> `mov rbp, rsp` არის ფუნქციის „შესვლის რიტუალი“ (იხ.
+> [`GLOSSARY.md`](GLOSSARY.md) — prologue, `rbp`, `rsp`, DWORD).
+
+```asm
 add:
     push rbp
     mov  rbp, rsp
@@ -56,7 +70,7 @@ add:
 
 **`-O2`:**
 
-```nasm
+```asm
 add:
     lea  eax, [rdi+rsi]
     ret
@@ -118,11 +132,17 @@ add:
 `main`-ს იძახებს).
 
 ```bash
-nasm -f elf64 prog.asm -o prog.o
-gcc -no-pie prog.o -o prog
+nasm -f elf64 -g -F dwarf prog.asm -o prog.o
+gcc -no-pie -g prog.o -o prog
 ```
 
-`-no-pie` აადვილებს აბსოლუტურ მისამართებს. პროგრამა `exit`-ის გარეშე
+> ⚠️ **`-g` აქ აუცილებელია.** მის გარეშე gdb-ში ვერ დაწერ `break file.asm:12`
+> (ხაზზე გაჩერება) და ვერ ნახავ C-ის ტიპებს (`p sizeof(struct S)`). დამატებით
+> ინფორმაციას, რომელსაც `-g` ინახავს, **DWARF** ჰქვია (იხ. [`GLOSSARY.md`](GLOSSARY.md)).
+
+`-no-pie` აადვილებს აბსოლუტურ მისამართებს. მიუხედავად ამისა, კოდში მაინც
+დავწერთ `default rel`-ს: ფარდობითი მისამართვა ჩვევად უნდა დაგრჩეს, რადგან
+რეალურ პროგრამებში PIE ჩვეულებრივ ჩართულია. პროგრამა `exit`-ის გარეშე
 შეიძლება `main`-იდან `ret`-ით დასრულდეს (`eax` = exit code).
 
 ### 2. `printf` გამოძახება
@@ -193,8 +213,8 @@ ASM მხარის კონტრაქტი: `rdi = arr`, `rsi = n`, შ�
 Build:
 
 ```bash
-nasm -f elf64 sum.asm -o sum.o
-gcc -no-pie main.c sum.o -o prog
+nasm -f elf64 -g -F dwarf sum.asm -o sum.o
+gcc -no-pie -g main.c sum.o -o prog
 ```
 
 **ტიპების ზომა:** `int` = 4 ბაიტი (`eax`), `size_t`/pointer = 8 ბაიტი
@@ -217,7 +237,11 @@ calling convention-ით მუშაობს (Linux-ზე System V). marshal
 ### 🐛 ხშირი შეცდომები
 
 - **`printf`-მდე `xor eax, eax` არ გააკეთე** → crash ან უცნაური შედეგი.
-- **`sub rsp, N` სადაც N კენტია** → alignment გატყდა → `movaps` crash.
+- **`sub rsp, N` სადაც N **16-ის ჯერადი არ არის** → alignment გატყდა → `movaps`
+  crash.** ფრთხილად: `8` და `24` **ლუწია**, მაგრამ მაინც არღვევს გასწორებას —
+  სწორია `16`, `32`, `48`… (მიზეზი: ფუნქციაში შესვლისას `rsp ≡ 8 (mod 16)`-ია,
+  ერთი `push rbp` მას 16-ის ჯერადს ხდის, და მერე N-იც 16-ის ჯერადი უნდა იყოს.
+  იხ. [`GLOSSARY.md`](GLOSSARY.md) — alignment).
 - **`int` არგუმენტს `rdi`-ით კითხულობ** (`edi` ნაცვლად) → ზედა 32 ბიტი
   ნაგავია.
 - **`printf`-ის შემდეგ `rsi`/`rdi` გამოიყენე** → ისინი caller-saved-ია.
@@ -469,7 +493,7 @@ strace -e trace=write,read ./prog
 | მიზეზი                                | როგორ გამოიცნობ                                       |
 | ------------------------------------- | ----------------------------------------------------- |
 | NULL ან ცუდი pointer-ის dereference   | gdb-ში ხაზზე `mov rax, [rbx]` და `rbx = 0`            |
-| `ret` ცუდ მისამართზე (stack გაფუჭდა)  | `rip` უცნაური მნიშვნელობა (მაგ. `0x4141414141414141`) |
+| `ret` ცუდ მისამართზე (stack გაფუჭდა)  | `rip` უცნაური მნიშვნელობა — მაგ. `0x4141414141414141`, რაც ASCII-ით `AAAAAAAA`-ია (overflow-ის კვალი!) |
 | `exit` არ გამოიძახე: კოდი "მიედინება" | პროგრამა მთავრდება `.text`-ის ბოლოს შემდეგ            |
 | `movaps` არაგასწორებულ მისამართზე     | crash `movaps` ინსტრუქციაზე                           |
 | stack alignment libc ფუნქციაში        | crash `printf` ან `puts` სიღრმეში                     |

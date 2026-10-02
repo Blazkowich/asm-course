@@ -60,7 +60,17 @@
 | II    | [`02-week2-stack-functions.md`](02-week2-stack-functions.md)         | ~10 სთ  |
 | III   | [`03-week3-c-interop.md`](03-week3-c-interop.md)                     | ~10 სთ  |
 | IV    | [`04-week4-reverse-engineering.md`](04-week4-reverse-engineering.md) | ~10 სთ  |
+| —     | [`GLOSSARY.md`](GLOSSARY.md) — **ლექსიკონი**                          | ცნობარი |
 | —     | [`CHEATSHEET.md`](CHEATSHEET.md)                                     | ცნობარი |
+
+> 🔤 **სანამ I კვირას დაიწყებ:** თუ სიტყვები `რეგისტრი`, `მისამართი`, `syscall`,
+> `სტეკი`, `rip`, `byte` გაუგებარია — ეს ნორმალურია. [`GLOSSARY.md`](GLOSSARY.md)
+> ყველა მათგანს მარტივი ენით ხსნის, ანალოგიებით და „სად შეხვდები“ მითითებით.
+> კურსი **ვარაუდობს, რომ Assembly არასდროს გინახავს** — მაგრამ ტერმინები
+> არასდროს არის ცხადი თავისთავად.
+>
+> `CHEATSHEET.md` კი პირიქით — ის **ცნობარია, არა განმარტება**. მას I კვირის
+> შემდეგ გამოიყენებ.
 
 ---
 
@@ -117,10 +127,13 @@ cd /work/test-env
 
 ## 🆘 დახმარება
 
+- **ტერმინი გაუგებარია?** → [`GLOSSARY.md`](GLOSSARY.md) — მაგ. „რა არის `rip`?“,
+  „რა არის ABI?“, „რატომ ჰქვია `rax`-ს ასე?“ (პირველი ნაბიჯი ყოველთვის ესაა)
 - **ინსტრუმენტები არ მუშაობს?** → `00-setup.md` § 5 „ხშირი პრობლემები“
 - **Segfault?** → `03-week3-c-interop.md` § V.4
-- **გაუგებარი ინსტრუქცია?** → Felix Cloutier-ის x86 reference (ინტერნეტში)
-- **რეგისტრები აირია?** → `CHEATSHEET.md`
+- **დავალება არ გამოდის?** → [`test-env/GUIDELINES.md`](test-env/GUIDELINES.md)
+- **რეგისტრები აირია?** → `CHEATSHEET.md` (ცხრილები) + `GLOSSARY.md` (ახსნები)
+- **ინსტრუქციის ზუსტი აღწერა?** → Felix Cloutier-ის x86 reference (ინტერნეტში)
 
 ---
 

@@ -110,27 +110,42 @@ strace -V            # strace 5+
 
 ### 4.1 პირველი ტესტი
 
+ეს ტესტი ამოწმებს, რომ **ხელსაწყოები მუშაობს** — და არა ის, რომ Assembly უკვე იცი.
+კოდი დეტალურად I კვირაში იქნება ახსნილი. ახლა მხოლოდ ეს იცოდე: ქვემოთ მოცემული
+პროგრამა ამბობს „დაასრულე პროგრამა კოდით 7“.
+
 შექმენი `hello.asm`:
 
 ```nasm
-global _start
-section .text
+global _start       ; საიდან დაიწყოს პროგრამა (ლინკერისთვის)
+section .text       ; აქ იწყება კოდი
 _start:
-    mov rax, 60      ; sys_exit
-    mov rdi, 42      ; exit code
-    syscall
+    mov rax, 60     ; 60 = "exit" syscall-ის ნომერი
+    mov rdi, 7      ; "რა კოდით დავასრულო" → 7
+    syscall         ; შეასრულე
 ```
+
+> 🔤 **ყველა ეს სიტყვა** (`rax`, `rdi`, `syscall`, `_start`, `section`) მარტივი
+> ენითაა ახსნილი [`GLOSSARY.md`](GLOSSARY.md)-ში — გახსენი და ნახე, თუ ახლავე
+> გინდა გაიგო. თუ არა — არაუშავს, I კვირა ყველაფერს ნულიდან ხსნის.
+>
+> 📌 **რიცხვი 7 შემთხვევითია.** ეს არ არის I კვირის დავალების პასუხი — შენ იქ
+> სხვა პროგრამას დაწერ (სხვა exit code-ით). ეს მხოლოდ ხელსაწყოების შემოწმებაა.
 
 ააწყვე და გაუშვი:
 
 ```bash
-nasm -f elf64 -g -F dwarf hello.asm -o hello.o
-ld hello.o -o hello
+nasm -f elf64 -g -F dwarf hello.asm -o hello.o   # ტექსტი → მანქანური კოდი
+ld hello.o -o hello                              # → გაშვებადი ფაილი
 ./hello
-echo $?              # უნდა დაბეჭდოს: 42
+echo $?              # უნდა დაბეჭდოს: 7
 ```
 
-თუ `42` დაინახე — გარემო მზადაა. 🎉
+რას ნიშნავს დროშები (`flags`): `-f elf64` = გამოსავლის ფორმატი (64-ბიტიანი
+Linux-ის ფაილი), `-g -F dwarf` = დამატებითი ინფორმაცია gdb-სთვის (რომ შენი
+კოდის ხაზები დაინახოს). ორივე ახსნილია [`GLOSSARY.md`](GLOSSARY.md)-ში.
+
+თუ `7` დაინახე — გარემო მზადაა. 🎉
 
 ### 4.2 gdb-ის კონფიგურაცია
 
@@ -154,6 +169,10 @@ echo "set disassembly-flavor intel" > ~/.gdbinit
 | `Permission denied` Docker-ში   | Docker daemon-ის უფლებები | `sudo usermod -aG docker $USER` + relogin |
 | WSL: ფაილები ნელია              | ფაილები `/mnt/c/...`-შია  | გადაიტანე `~/work`-ში                     |
 | `movaps` crash                  | stack alignment           | `push rbp` გამოძახებამდე                  |
+
+> 🔤 ამ ცხრილში გამოყენებული ტერმინები (`libc`, `alignment`, `movaps`, `rbp`,
+> `flags`, `PIE`) ახსნილია [`GLOSSARY.md`](GLOSSARY.md)-ში. თუ შეცდომის ტექსტი
+> გაუგებარია — ჯერ იქ ნახე, მერე დაბრუნდი.
 
 ### 5.1 როგორ გავიგო, რომელი ბიბლიოთეკა მაკლია
 
@@ -228,6 +247,13 @@ make run hello    # გაუშვებს და დაბეჭდავს 
 make clean        # წაშლის .o და binaries
 ```
 
+> 📌 `$<` ნიშნავს „წყაროს ფაილი“, `$@` — „გამოსავლის ფაილი“; ეს make-ის
+> ცვლადებია და მათი ზეპირად დამახსოვრება არ გჭირდება.
+> **Makefile სავალდებულო არ არის** — მის გარეშეც შეგიძლია `nasm`/`ld`
+> ბრძანებები ხელით აკრიფო (როგორც § 4.1-შია).
+
+**გაუგებარი ტერმინი?** → [`GLOSSARY.md`](GLOSSARY.md)
+
 ---
 
 ## ✅ Setup Checklist
@@ -235,5 +261,5 @@ make clean        # წაშლის .o და binaries
 - [ ] Docker/WSL2/Native გარემო არჩეულია
 - [ ] `nasm`, `ld`, `gcc`, `gdb`, `objdump`, `strace` დაყენებულია
 - [ ] `~/.gdbinit`-ში `set disassembly-flavor intel` ჩაწერილია
-- [ ] `hello.asm` ააწყო და `./hello; echo $?` დაბეჭდა `42`
+- [ ] `hello.asm` ააწყო და `./hello; echo $?` დაბეჭდა `7`
 - [ ] gdb-ში შედი, `stepi` გააკეთე და `rax` ნახე

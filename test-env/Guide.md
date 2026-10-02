@@ -8,6 +8,7 @@ asm-course/
 ├── 02-week2-stack-functions.md
 ├── 03-week3-c-interop.md
 ├── 04-week4-reverse-engineering.md
+├── GLOSSARY.md          — ★ ლექსიკონი: ყველა ტერმინი მარტივი ენით
 ├── CHEATSHEET.md
 └── test-env/
     ├── Dockerfile
