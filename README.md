@@ -1,4 +1,3 @@
-````markdown
 # Assembly-ის სასწავლო გზამკვლევი (4 კვირა)
 
 **სამიზნე აუდიტორია:** დამწყები, რომელსაც აქვს პროგრამირების საბაზისო გამოცდილება
@@ -81,7 +80,8 @@ docker run --rm -it -v "$PWD/..:/work" asm-course
 ./test-env/verify.sh
 ./test-env/run-tests.sh
 ```
-````
+
+```
 
 ---
 
@@ -121,3 +121,4 @@ docker run --rm -it -v "$PWD/..:/work" asm-course
 - **Compiler Explorer (godbolt.org)** — C-ის asm-ად გადაქცევა ბრაუზერში
 - **pwn.college** — პრაქტიკული მოდულები (უფასო)
 - წიგნები: _Programming from the Ground Up_ (Bartlett), _Hacking: The Art of Exploitation_ (Erickson)
+```

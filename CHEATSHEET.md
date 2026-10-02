@@ -1,4 +1,3 @@
-````markdown
 # Assembly Cheatsheet (x86-64, NASM)
 
 სწრაფი ცნობარი. ბეჭდე და მაგიდაზე დაიდე.
@@ -89,7 +88,6 @@ lea  rax, [expr]           ; მისამართის გამოთვ�
 push rax                   ; rsp -= 8; [rsp] = rax
 pop  rax                   ; rax = [rsp]; rsp += 8
 ```
-````
 
 ### არითმეტიკა
 
