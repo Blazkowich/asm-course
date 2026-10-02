@@ -3,7 +3,7 @@
 # Build:  docker buildx build -t asm-course .
 # Run:    docker run --rm -it -v "$PWD/..:/work" asm-course
 
-FROM ubuntu:22.04
+FROM ubuntu:latest
 
 LABEL maintainer="asm-course"
 LABEL description="x86-64 NASM learning environment"
