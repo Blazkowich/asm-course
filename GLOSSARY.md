@@ -48,7 +48,7 @@ C-ის ან ოპერაციული სისტემის შე�
 ## § 1. CPU და მეხსიერება
 
 <a id="cpu"></a>
-### CPU (პროცესორი)
+### CPU (Central Processing Unit) — ცენტრალური პროცესორი
 
 ჩიპი, რომელიც რეალურად ასრულებს ბრძანებებს. მას არ იცის რა არის ცვლადი,
 ფუნქცია, ციკლი ან ტიპი — მხოლოდ ბრძანებები და რიცხვები იცის. **ყველაფერი,
@@ -330,7 +330,7 @@ mnemonic  ოპერანდები
 ## § 4. Build: ტექსტიდან გაშვებად ფაილამდე
 
 <a id="assembler"></a>
-### assembler (ასამბლერი) — `nasm`
+### assembler (ასამბლერი) — `nasm` (Netwide Assembler)
 
 პროგრამა, რომელიც შენს წაკითხვად Assembly ტექსტს **მანქანურ კოდად** გარდაქმნის
 (ისე, როგორც C#-ის კომპილატორი). შედეგია **ობიექტური ფაილი** (`.o`) — ჯერ არ
@@ -817,35 +817,149 @@ asm-ში მუდმივად `+8`, `+16` offset-ებს ნახავ
 
 ---
 
-## § 10. აბრევიატურები, რომლებიც კოდში შეგხვდება
+## § 10. აბრევიატურების გაშიფვრა
 
-| აბრევიატურა | ინგლისურად                    | ქართულად                                              |
-| ----------- | ----------------------------- | ----------------------------------------------------- |
-| `dst`       | destination                   | მიმღები (სად ვწერთ)                                     |
-| `src`       | source                        | წყარო (საიდან ვკითხულობთ)                               |
-| `imm`       | immediate                     | კოდში პირდაპირ ჩაწერილი რიცხვი                          |
-| `reg`       | register                      | რეგისტრი                                              |
-| `mem`       | memory                        | მეხსიერება                                            |
-| `disp`      | displacement                  | მისამართის მუდმივი ნაწილი (`[rbx + 8]`-ში `8`)          |
-| `arg`       | argument                      | არგუმენტი                                             |
-| `ret`       | return (value/address)        | დაბრუნებული მნიშვნელობა / დაბრუნების მისამართი          |
-| `fd`        | file descriptor               | ფაილის დესკრიპტორი (იხ. § 5)                          |
-| `buf`       | buffer                        | ბუფერი (მეხსიერების უბანი მონაცემებისთვის)             |
-| `ptr`       | pointer                       | მაჩვენებელი (იხ. § 7)                                 |
-| `ZF/SF/CF/OF/DF` | Zero/Sign/Carry/Overflow/Direction | ფლაგები (იხ. § 2, `rflags`)                    |
-| `volatile`  | —                             | caller-saved-ის სინონიმი (იხ. § 6)                     |
-| `TUI`       | Text User Interface           | gdb-ის ტექსტური ინტერფეისი (`layout regs`)             |
-| `PC`        | Program Counter               | სხვა არქიტექტურებში `rip`-ის ანალოგი                   |
-| `NaN`       | Not a Number                  | „რიცხვი არ არის“ — წილადი რიცხვის განსაკუთრებული მნიშვნელობა |
-| `LIFO`      | Last In, First Out            | ბოლოს შესული, პირველი გამოსული (სტეკი)                 |
-| `ABI`       | Application Binary Interface  | ფუნქციების „საუბრის“ წესები (იხ. § 6)                   |
-| `PIE`       | Position Independent Executable | მისამართისგან დამოუკიდებელი ფაილი (იხ. § 4)            |
-| `ASLR`      | Address Space Layout Randomization | მისამართების შემთხვევითობა (იხ. § 8)                |
-| `NX`        | No eXecute                    | შესრულების აკრძალვა მონაცემთა უბნებში (იხ. § 8)        |
-| `SIMD`      | Single Instruction, Multiple Data | ერთი ბრძანება — ბევრი მონაცემი (იხ. § 7)             |
-| `SSE`/`AVX` | Streaming SIMD Extensions / Advanced Vector Extensions | SIMD ინსტრუქციების ნაკრებები (იხ. § 7) |
-| `JIT`/`AOT` | Just-In-Time / Ahead-Of-Time  | გაშვების დროს / წინასწარ კომპილაცია (იხ. § 9)          |
-| `ELF`/`PE`  | Executable and Linkable Format / Portable Executable | Linux-ის / Windows-ის ფაილის ფორმატი (იხ. § 4) |
+აქ არის **ყველა** აბრევიატურა, რომელიც კურსში გხვდება — ანბანურად. თუ კოდში
+ან ტექსტში დიდი ასოებით დაწერილი სიტყვა გაგიჩნდა და აქ ვერ იპოვე, ეს ჩვენი
+ხარვეზია — მოგვწერე.
+
+### 10.1 ზოგადი აბრევიატურები
+
+| აბრევიატურა | სრული სახელი (ინგლისურად) | ქართულად |
+| --- | --- | --- |
+| `ABI` | Application Binary Interface | ფუნქციების „საუბრის“ წესები (იხ. § 6) |
+| `AMD64` | AMD 64-bit | იგივეა, რაც `x86-64`; სახელი AMD-მ (Advanced Micro Devices) შემოიღო (იხ. `x86-64` ქვემოთ) |
+| `ANSI` | American National Standards Institute | ორგანიზაცია, რომლის სტანდარტს ტერმინალის ფერებიც ეყრდნობა |
+| `AOT` | Ahead-Of-Time | კომპილაცია წინასწარ, გაშვებამდე (როგორც C-ში); `JIT`-ის საპირისპირო (იხ. § 9) |
+| `arg` | argument | არგუმენტი — მნიშვნელობა, რომელსაც ფუნქციას გადასცემ |
+| `ASM`, `asm` | assembly | Assembly-ის შემოკლება; ხშირად ფაილის გაფართოებაა (`.asm`), ან make-ის ცვლადის სახელი |
+| `ASCII` | American Standard Code for Information Interchange | სიმბოლოების ციფრული ცხრილი: `'A'` = 65, `'0'` = 48 (იხ. `CHEATSHEET.md` → ASCII) |
+| `ASLR` | Address Space Layout Randomization | მისამართების შემთხვევითობა (იხ. § 8) |
+| `AVX`, `AVX2` | Advanced Vector Extensions | SIMD-ის უფრო ახალი ნაკრები, ვიდრე SSE; რეგისტრები `ymm` (256 ბიტი) |
+| `.bss` | Block Started by Symbol | სექცია ნულოვანი ცვლადებისთვის — ისტორიული, უაზრო სახელი (იხ. § 3) |
+| `buf` | buffer | ბუფერი — მეხსიერების უბანი მონაცემებისთვის |
+| `CF` | Carry Flag | ფლაგი: unsigned გადავსება (იხ. § 2, `rflags`) |
+| `CPU` | Central Processing Unit | ცენტრალური პროცესორი — ჩიპი, რომელიც ბრძანებებს ასრულებს (იხ. § 1) |
+| `CPUID` | CPU Identification | ინსტრუქცია, რომლითაც პროგრამა პროცესორის შესაძლებლობებს იკითხავს |
+| `db`, `dw`, `dd`, `dq` | define byte / word / dword / qword | NASM-ის დირექტივები: 1, 2, 4, 8 ბაიტიანი მონაცემი (იხ. § 1) |
+| `DF` | Direction Flag | ფლაგი: სტრიქონის ოპერაციის მიმართულება (`cld` / `std`) |
+| `disp` | displacement | მისამართის მუდმივი ნაწილი (`[rbx + 8]`-ში `8`) |
+| `dst` | destination | მიმღები (სად ვწერთ) |
+| `DWARF` | (აბრევიატურა არ არის) | გამართვის ინფორმაციის ფორმატის სახელი; შერჩეულია თამაშად `ELF`-ზე (იხ. § 4) |
+| `dword` | double word | 4 ბაიტი — „ორმაგი სიტყვა“ (იხ. § 1) |
+| `ELF` | Executable and Linkable Format | Linux-ის გაშვებადი ფაილის ფორმატი (იხ. § 4) |
+| `equ` | equate | „გაუტოლე“ — მუდმივის გამოცხადება (იხ. § 3) |
+| `fd` | file descriptor | ფაილის დესკრიპტორი (იხ. § 5) |
+| `gcc` | GNU Compiler Collection | C-ის კომპილატორი |
+| `gdb` | GNU Debugger | გამმართველი (იხ. § 5) |
+| `GNU` | GNU's Not Unix | პროექტი, რომელმაც შექმნა gcc, gdb, ld (რეკურსიული სახელია) |
+| `IL` | Intermediate Language | .NET-ის შუალედური კოდი — JIT მას მანქანურ კოდად აქცევს (იხ. § 9) |
+| `imm` | immediate | კოდში პირდაპირ ჩაწერილი რიცხვი |
+| `JIT` | Just-In-Time | კომპილაცია გაშვების დროს (იხ. § 9) |
+| `ld` | linker / loader | ლინკერი (იხ. § 4) |
+| `LIFO` | Last In, First Out | ბოლოს შესული, პირველი გამოსული — სტეკი (იხ. § 6) |
+| `MB` | megabyte | ~1 მილიონი ბაიტი; სტეკის ლიმიტი ჩვეულებრივ 8 MB-ია |
+| `mem` | memory | მეხსიერება |
+| `NaN` | Not a Number | „რიცხვი არ არის“ — წილადი რიცხვის განსაკუთრებული მნიშვნელობა |
+| `NASM` | Netwide Assembler | ასამბლერი (იხ. § 4) |
+| `NUL` | null | ნულოვანი ბაიტი `0x00` — C-ის სტრიქონის დასასრული (იხ. § 7) |
+| `NULL` | null pointer | მისამართი, რომელიც „არსად“ მიუთითებს |
+| `NX` | No eXecute | შესრულების აკრძალვა მონაცემთა უბნებში (იხ. § 8) |
+| `objdump` | object dump | დისასემბლერი — „ობიექტური ფაილის დაბეჭდვა“ (იხ. § 9) |
+| `OF` | Overflow Flag | ფლაგი: signed გადავსება |
+| `OS` | Operating System | ოპერაციული სისტემა; მისი ბირთვი — იხ. § 5 |
+| `PC` | Program Counter | სხვა არქიტექტურებში `rip`-ის ანალოგი (იხ. § 2) |
+| `PE` | Portable Executable | Windows-ის გაშვებადი ფაილი (`.exe`) |
+| `PIE` | Position Independent Executable | მისამართისგან დამოუკიდებელი ფაილი (იხ. § 4) |
+| `PLT` | Procedure Linkage Table | ცხრილი, რომლითაც პროგრამა გარე ბიბლიოთეკის ფუნქციას პოულობს (`wrt ..plt`) |
+| `popcnt` | population count | ინსტრუქცია „დათვალე ჩართული ბიტები“ (მხოლოდ ახალ CPU-ებზე) |
+| `PTR` | pointer | gcc-ის Intel სინტაქსში ზომის მაჩვენებელი: `DWORD PTR` = „4-ბაიტიანი მნიშვნელობა“ |
+| `ptr` | pointer | მაჩვენებელი (იხ. § 7) |
+| `reg` | register | რეგისტრი |
+| `resb`, `resq` | reserve byte / qword | NASM: „გამომიყავი N ბაიტი / რვაბაიტი ადგილი“ (იხ. § 3) |
+| `ret` | return | დაბრუნებული მნიშვნელობა ან დაბრუნების მისამართი |
+| `RIP` | instruction pointer | იგივეა, რაც `rip` — ზოგი ტექსტი დიდი ასოებით წერს (იხ. § 2) |
+| `ROP` | Return-Oriented Programming | შეტევის ტექნიკა: უკვე არსებული კოდის ნაწყვეტების გამოყენება |
+| `SF` | Sign Flag | ფლაგი: შედეგის ნიშანი (უარყოფითია თუ არა) |
+| `SIGFPE` | signal: floating-point exception | სიგნალი გაყოფის შეცდომაზე; სახელი ისტორიულია (იხ. § 1) |
+| `SIGSEGV` | signal: segmentation violation | სიგნალი, რომელსაც „segfault“-ს ვეძახით (იხ. § 1) |
+| `SIMD` | Single Instruction, Multiple Data | ერთი ბრძანება — ბევრი მონაცემი (იხ. § 7) |
+| `src` | source | წყარო (საიდან ვკითხულობთ) |
+| `SSE`, `SSE2`, `SSE3`, `SSE4.2` | Streaming SIMD Extensions | SIMD-ის ინსტრუქციების ნაკრები `xmm` რეგისტრებით (იხ. § 7) |
+| `stdin`, `stdout`, `stderr` | standard input / output / error | სამი სტანდარტული ნაკადი: fd 0, 1, 2 (იხ. § 5) |
+| `TUI` | Text User Interface | gdb-ის ტექსტური ინტერფეისი (`layout regs`) |
+| `UTF-8` | Unicode Transformation Format, 8-bit | სიმბოლოების კოდირება; ქართული ასო 3 ბაიტია (იხ. § 1) |
+| `VM` | Virtual Machine | ვირტუალური მანქანა — „კომპიუტერი კომპიუტერში“ |
+| `volatile` | — | caller-saved-ის სინონიმი (იხ. § 6) |
+| `WSL`, `WSL2` | Windows Subsystem for Linux | Windows-ში ჩაშენებული Linux (იხ. `00-setup.md`) |
+| `x86`, `x86-64` | (პროცესორის ოჯახი) | Intel 8086-ის შთამომავალი ოჯახი; `x86-64` = 64-ბიტიანი ვერსია = `AMD64` |
+| `ZF` | Zero Flag | ფლაგი: შედეგი ნულია თუ არა (იხ. § 2) |
+
+### 10.2 რეგისტრების სახელები — როგორ იკითხება
+
+რეგისტრის სახელი **ორი ნაწილისგან** შედგება: ისტორიული როლი + ზომა. მაგალითად
+`rax` = **a**ccumulator + **r**egister (64 ბიტი), ხოლო `edi` = **d**estination
+**i**ndex + **e**xtended (32 ბიტი).
+
+**ნაწილი 1 — როლი (სახელის ასოები):**
+
+| ნაწილი | ინგლისურად | ქართულად | მაგალითი |
+| --- | --- | --- | --- |
+| `a` | accumulator | დამგროვებელი (არითმეტიკა) | `rax` |
+| `b` | base | საბაზისო | `rbx` |
+| `c` | counter | მთვლელი (ციკლები) | `rcx` |
+| `d` | data | მონაცემი | `rdx` |
+| `si` | source index | წყაროს ინდექსი | `rsi` |
+| `di` | destination index | მიმღების ინდექსი | `rdi` |
+| `sp` | stack pointer | სტეკის მაჩვენებელი | `rsp` |
+| `bp` | base pointer | ჩარჩოს საბაზისო | `rbp` |
+| `ip` | instruction pointer | ინსტრუქციის მაჩვენებელი | `rip` |
+| `flags` | flags | ფლაგები | `rflags` |
+
+**ნაწილი 2 — ზომა (რამდენი ბიტია):**
+
+| სახელი | ბიტი | რას ნიშნავს | მაგალითი |
+| --- | --- | --- | --- |
+| `r` თავში | 64 | register | `rax`, `r8` |
+| `e` თავში | 32 | extended (გაფართოებული) | `eax` |
+| სუფიქსის გარეშე | 16 | ისტორიული ზომა | `ax` |
+| `l` / `h` სუფიქსი | 8 | low / high ბაიტი | `al`, `ah` |
+| `d` სუფიქსი | 32 | double word | `r8d` |
+| `w` სუფიქსი | 16 | word | `r8w` |
+| `b` სუფიქსი | 8 | byte | `r8b` |
+
+**ნაწილი 3 — დანომრილი რეგისტრები.** `r8`-`r15` მოგვიანებით დაემატნენ, ამიტომ
+ისტორიული სახელი არ აქვთ და უბრალოდ დანომრილი არიან. `xmm0`-`xmm15` კი ცალკე,
+128-ბიტიანი რეგისტრებია წილადი რიცხვებისთვის (იხ. § 2, `xmm`).
+
+### 10.3 ინსტრუქციების სახელები — როგორ იკითხება
+
+ინსტრუქციების სახელები ინგლისური სიტყვების შემოკლებებია. თუ სახელი იცი, აღარ
+გჭირდება დამახსოვრება — უბრალოდ იკითხება.
+
+| ნაწილი | ინგლისურად | ქართულად | მაგალითი |
+| --- | --- | --- | --- |
+| `mov` | move | გადაიტანე | `mov rax, 5` |
+| `add`, `sub` | add, subtract | მიუმატე, გამოაკელი | `add rax, rbx` |
+| `imul`, `idiv` | integer multiply / divide | მთელი რიცხვების გამრავლება / გაყოფა | `imul rax, rbx` |
+| `inc`, `dec` | increment, decrement | გაზარდე / შეამცირე 1-ით | `inc rcx` |
+| `neg` | negate | შეცვალე ნიშანი | `neg rax` |
+| `lea` | load effective address | მისამართის გამოთვლა, მეხსიერების წაკითხვის გარეშე | `lea rax, [rbx+8]` |
+| `cmp` | compare | შეადარე (შედეგს ინახავს ფლაგებში) | `cmp rax, rbx` |
+| `test` | test | შეამოწმე (AND, შედეგი ფლაგებში) | `test rax, rax` |
+| `and`, `or`, `xor`, `not` | and, or, exclusive or, not | ბიტური ოპერაციები | `and eax, 0xFF` |
+| `shl`, `shr`, `sar` | shift left / right, arithmetic right | ბიტების წანაცვლება | `shl rax, 3` |
+| `push`, `pop` | push, pop | სტეკზე დადება / აღება | `push rax` |
+| `call`, `ret` | call, return | გამოძახება, დაბრუნება | `call func` |
+| `j` | jump | გადახტომა (`goto`) | `jmp`, `je` |
+| `j` + `e` / `z` | equal / zero | თუ ტოლია / ნულია | `je`, `jz` |
+| `j` + `ne` / `nz` | not equal / not zero | თუ არ არის ტოლი / ნული | `jne`, `jnz` |
+| `j` + `l`, `le`, `g`, `ge` | less, greater (signed) | ნაკლები / მეტი (ნიშნიანი) | `jl`, `jge` |
+| `j` + `b`, `be`, `a`, `ae` | below, above (unsigned) | ნაკლები / მეტი (უნიშნო) | `jb`, `ja` |
+| `rep`, `repe`, `repne` | repeat, while equal / not equal | გაიმეორე `rcx`-ჯერ | `repne scasb` |
+| სუფიქსი `b`, `w`, `d`, `q` | byte, word, dword, qword | ზომა: 1, 2, 4, 8 ბაიტი | `movsb`, `stosw`, `lodsd` |
+| `ss` / `ps` (SSE) | scalar / packed single | ერთი float / ოთხი float ერთად | `movss`, `addps` |
+| `u` / `a` (SSE) | unaligned / aligned | გასწორების გარეშე / 16-ის ჯერადად | `movups`, `movaps` |
 
 ---
 

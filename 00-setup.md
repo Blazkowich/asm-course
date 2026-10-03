@@ -50,7 +50,7 @@ gdb --version
 
 ---
 
-## ვარიანტი 2: WSL2 (Windows)
+## ვარიანტი 2: WSL2 (Windows Subsystem for Linux — Windows-ში ჩაშენებული Linux)
 
 ### 2.1 WSL2-ის ჩართვა
 
